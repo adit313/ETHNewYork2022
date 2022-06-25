@@ -194,6 +194,7 @@ class Main {
         this.enableStylizeButtons();
       });
     };
+
     this.randomizeButton = document.getElementById('randomize');
     this.randomizeButton.onclick = () => {
       this.styleRatioSlider.value = getRndInteger(0, 100);
@@ -206,6 +207,18 @@ class Main {
         this.styleImgSquare.click();
       }
     }
+
+
+    this.mintButton = document.getElementById('mint-button');
+    this.mintButton.onclick = () => {
+      this.disableMintButton()
+      console.log("minting")
+      this.mint()
+      this.enableMintButton()
+    };
+
+    this.name = document.getElementById('name-input');
+    this.description = document.getElementById('description-input');
 
     // Initialize selectors
     this.contentSelect = document.getElementById('content-select');
@@ -274,6 +287,11 @@ class Main {
       }
     }
 
+    this.testButton = document.getElementById("test-button")
+    this.testButton.onclick = () => {
+      console.log("test working")
+    }
+
     // Initialize selectors
     this.combContentSelect = document.getElementById('c-content-select');
     this.combContentSelect.onchange = (evt) => this.setImage(this.combContentImg, evt.target.value);
@@ -335,7 +353,7 @@ class Main {
     this.combineButton.disabled = false;
     this.modelSelectStyle.disabled = false;
     this.modelSelectTransformer.disabled = false;
-    this.styleButton.textContent = 'Stylize';
+    this.styleButton.textContent = 'Blend';
     this.combineButton.textContent = 'Combine Styles';
   }
 
@@ -344,6 +362,16 @@ class Main {
     this.combineButton.disabled = true;
     this.modelSelectStyle.disabled = true;
     this.modelSelectTransformer.disabled = true;
+  }
+
+  enableMintButton() {
+    this.mintButton.disabled = false;
+    this.mintButton.textContent = 'Mint';
+  }
+
+  disableMintButton() {
+    this.mintButton.disabled = false;
+    this.mintButton.textContent = 'Minting...';
   }
 
   async startStyling() {
@@ -376,6 +404,7 @@ class Main {
     await tf.browser.toPixels(stylized, this.stylized);
     bottleneck.dispose();  // Might wanna keep this around
     stylized.dispose();
+    this.enableMintButton();
   }
 
   async startCombining() {
@@ -408,6 +437,111 @@ class Main {
     bottleneck2.dispose();
     combinedBottleneck.dispose();
     stylized.dispose();
+  }
+
+  async mint() {
+    function dataURItoBlob(dataURI) {
+      // convert base64/URLEncoded data component to raw binary data held in a string
+      var byteString;
+      if (dataURI.split(',')[0].indexOf('base64') >= 0)
+          byteString = atob(dataURI.split(',')[1]);
+      else
+          byteString = unescape(dataURI.split(',')[1]);
+      // separate out the mime component
+      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+      // write the bytes of the string to a typed array
+      var ia = new Uint8Array(byteString.length);
+      for (var i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+      }
+      return new Blob([ia], {type:mimeString});
+  }
+
+    const img = stylized.toDataURL();
+    const binary = dataURItoBlob(img)
+    const imageUpload = new File([ binary ], 'nft.png', { type: 'image/png' })
+
+    var form = new FormData();
+    form.append("file", imageUpload);
+
+    var resp = await fetch(
+      `https://api-eu1.tatum.io/v3/ipfs`,
+      {
+        method: 'POST',
+        headers: {
+          'x-api-key': '1f6fe0d4-adb1-406f-8f48-6f5ba52fc5d1'
+        },
+        body: form
+      }
+    );
+
+    var data = await resp.text();
+    console.log(data);
+    data = JSON.parse(data)
+
+    let image_location = "ipfs://" + data["ipfsHash"]
+
+    const jsn = JSON.stringify(
+            {
+            "name": this.name.value,
+            "description": this.description.value,
+            "image": image_location,
+            "attributes": [
+                {
+                "trait_type": "Content",
+                "value": "Image 1"
+                },
+                {
+                "trait_type": "Style",
+                "value": "Image 2"
+                },
+            ]
+        });
+    const blob = new Blob([jsn], { type: 'application/json' });
+    const file = new File([ blob ], 'metadata.json');
+
+    form = new FormData();
+    form.append("file", file);
+
+    resp = await fetch(
+      `https://api-eu1.tatum.io/v3/ipfs`,
+      {
+        method: 'POST',
+        headers: {
+          'x-api-key': '1f6fe0d4-adb1-406f-8f48-6f5ba52fc5d1'
+        },
+        body: form
+      }
+    );
+
+    data = await resp.text();
+    console.log(data);
+    data = JSON.parse(data)
+
+    let nft_location = "ipfs://" + data["ipfsHash"]
+
+    resp = await fetch(
+      `https://api-eu1.tatum.io/v3/nft/mint`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-testnet-type': 'ethereum-rinkeby',
+          'x-api-key': '1f6fe0d4-adb1-406f-8f48-6f5ba52fc5d1'
+        },
+        body: JSON.stringify({
+          chain: 'ETH',
+          to: '0x3C565c6bC265cE063bf793F4260918165F598D31',
+          url: nft_location,
+          fromPrivateKey: '0x16c7e51c3b677265cb5795ef60ec1bab8460fb5df5d308f0147beafbbcb2d870',
+          tokenId: "9",
+          contractAddress: "0x1c2283eefC1499C51abf6C7a5Bb0fB815a51dBD2"
+        })
+      }
+    );
+
+    data = await resp.json();
+    console.log(data);
   }
 
   async benchmark() {

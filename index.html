@@ -57,7 +57,7 @@ limitations under the License.
 <!-- As a heading -->
 <div class="jumbotron jumbotron-fluid py-4" style="text-align: center; background-color: #f5f5f5;">
     <div class="container">
-      <h4>Arbitrary Style Transfer in the Browser</h1>
+      <h4>Meta Melange</h1>
     </div>
   </div>
 <div class="">
@@ -65,14 +65,6 @@ limitations under the License.
   This site may have problems functioning on mobile devices. 
   Don't worry, you can still read the description below!
 </div>
-<ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="stylize-tab" data-toggle="tab" href="#stylize" role="tab" aria-controls="stylize" aria-selected="true">Stylize an image</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="combine-tab" data-toggle="tab" href="#combine" role="tab" aria-controls="combine" aria-selected="false">Combine two styles</a>
-  </li>
-</ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="stylize" role="tabpanel" aria-labelledby="stylize-tab">
       <div class="container">
@@ -80,7 +72,7 @@ limitations under the License.
           <div class="col mx-5 my-4">
               <img id="content-img" class="centered" src="images/chicago.jpg" height=256></img>
               <br>
-              <label for="content-img-size">Content image size</label>
+              <label for="content-img-size">Content NFT Size</label>
               <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" 
               title="A bigger content image results in a more detailed output, but increases the processing time significantly."></i>
               <input type="range" min="256" max="400" value="256" class="custom-range centered" id="content-img-size" >
@@ -100,7 +92,7 @@ limitations under the License.
           <div class="col mx-5 my-4">
               <img id="style-img" class="centered" crossorigin="anonymous" src="images/seaport.jpg" height=256></img>
               <br>
-              <label for="style-img-size">Style image size</label>
+              <label for="style-img-size">Style NFT Size</label>
               <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" 
               title='Changing the size of a style image usually affects the texture "seen" by the network.'></i>
               <input id="style-img-square" type="checkbox" style="vertical-align: middle; float: right;"
@@ -136,13 +128,31 @@ limitations under the License.
         </div>
         <div class="row my-4">
           <div class="col-md-5 offset-md-3">
-              <button disabled id="style-button" type="button" class="btn btn-primary btn-block">Loading stylization model. Please wait..</button>
+              <button disabled id="style-button" type="button" class="btn btn-primary btn-block">Loading blending model. Please wait..</button>
           </div>
           <div class="col-md-1">
               <button type="button" id="randomize" class="btn btn-light btn-block">
                 <i class="fas fa-random" data-toggle="tooltip" data-placement="top" 
                 title="Randomize parameters"></i>
               </button>
+          </div>
+        </div>
+        <div class="row my-4">
+          <div class="col-md-6 offset-md-3">
+            <form>
+              <div class="form-group">
+                <label for="inputName">Blended NFT Name</label>
+                <input type="name" class="form-control" id="name-input" aria-describedby="nameHelp" placeholder="Enter name">
+                <small id="nameHelp" class="form-text text-muted">Enter a name for your new NFT.</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1">Description</label>
+                <textarea class="form-control" id="description-input" rows="3"></textarea>
+                <small id="descriptionHelp" class="form-text text-muted">Enter a description your new NFT.</small>
+              </div>
+              <button id="test-button" type="button" class="btn btn-primary btn-block">test.</button>
+              <button disabled id="mint-button" type="button" class="btn btn-primary btn-block">Make a Blend.</button>
+            </form>            
           </div>
         </div>
       </div>
