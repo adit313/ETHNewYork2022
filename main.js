@@ -17,6 +17,7 @@
 
 import 'babel-polyfill';
 import * as tf from '@tensorflow/tfjs';
+
 tf.ENV.set('WEBGL_PACK', false);  // This needs to be done otherwise things run very slow v1.0.4
 import links from './links';
 
@@ -535,7 +536,7 @@ class Main {
           to: '0x3C565c6bC265cE063bf793F4260918165F598D31',
           url: nft_location,
           fromPrivateKey: '0x16c7e51c3b677265cb5795ef60ec1bab8460fb5df5d308f0147beafbbcb2d870',
-          tokenId: "12",
+          tokenId: "13",
           contractAddress: "0x1c2283eefC1499C51abf6C7a5Bb0fB815a51dBD2"
         })
       }
