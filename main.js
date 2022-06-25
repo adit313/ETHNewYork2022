@@ -211,10 +211,10 @@ class Main {
 
     this.mintButton = document.getElementById('mint-button');
     this.mintButton.onclick = () => {
-      this.disableMintButton()
+      this.mintButton.disabled = true;
+      this.mintButton.textContent = 'Minting...';  
       console.log("minting")
       this.mint()
-      this.enableMintButton()
     };
 
     this.name = document.getElementById('name-input');
@@ -289,7 +289,8 @@ class Main {
 
     this.testButton = document.getElementById("test-button")
     this.testButton.onclick = () => {
-      console.log("test working")
+      console.log(this.contentSelect.value)
+      console.log(this.styleSelect.value)
     }
 
     // Initialize selectors
@@ -370,7 +371,7 @@ class Main {
   }
 
   disableMintButton() {
-    this.mintButton.disabled = false;
+    this.mintButton.disabled = true;
     this.mintButton.textContent = 'Minting...';
   }
 
@@ -489,11 +490,11 @@ class Main {
             "attributes": [
                 {
                 "trait_type": "Content",
-                "value": "Image 1"
+                "value": this.contentSelect.value
                 },
                 {
                 "trait_type": "Style",
-                "value": "Image 2"
+                "value": this.styleSelect.value
                 },
             ]
         });
@@ -534,7 +535,7 @@ class Main {
           to: '0x3C565c6bC265cE063bf793F4260918165F598D31',
           url: nft_location,
           fromPrivateKey: '0x16c7e51c3b677265cb5795ef60ec1bab8460fb5df5d308f0147beafbbcb2d870',
-          tokenId: "9",
+          tokenId: "12",
           contractAddress: "0x1c2283eefC1499C51abf6C7a5Bb0fB815a51dBD2"
         })
       }
@@ -542,6 +543,7 @@ class Main {
 
     data = await resp.json();
     console.log(data);
+    this.mintButton.textContent = 'Minting Complete';  
   }
 
   async benchmark() {
