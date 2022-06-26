@@ -51,6 +51,23 @@ limitations under the License.
   Don't worry, you can still read the description below!
 </div>
 <div class="tab-content" id="myTabContent">
+  <div class="container">
+    <div class="row my-4">
+      <div class="col-md-3 offset-md-3">
+          <select disabled id="model-select-style" class="centered custom-select">
+            <option value="mobilenet" selected="selected">[Fast] Distilled MobileNet style model (9.6MB)</option>
+            <option value="inception">[High quality] Original Inceptionv3 style model (36.3MB)</option>
+          </select>
+      </div>
+      <div class="col-md-3">
+          <select disabled id="model-select-transformer" class="centered custom-select">
+            <option value="separable" selected="selected">[Fast] Separable_conv2d transformer (2.4MB)</option>
+            <option value="original">[High quality] Original transformer model (7.9MB)</option>
+          </select>
+      </div>
+    </div>
+  </div>
+  
   <div class="tab-pane fade show active" id="stylize" role="tabpanel" aria-labelledby="stylize-tab">
       <div class="container">
         <div class="row my-4">
@@ -66,12 +83,10 @@ limitations under the License.
                 <option value="" disabled>Select content</option>
                 <option value="pic">Take a picture</option>
                 <option value="file">Select from file</option>
-                <option value="stata">stata</option>
-                <option value="diana">diana</option>
-                <option value="golden_gate">golden_gate</option>
-                <option value="beach">beach</option>
-                <option value="chicago" selected="selected">chicago</option>
-                <option value="statue_of_liberty">statue_of_liberty</option>
+                <option value="BAYC8136" selected="selected">Bored Ape Yacht Club 8136</option>
+                <option value="CK1">Crypto Kitties 1</option>
+                <option value="WOW9248">World of Women 9248</option>
+                <option value="AZ231">Azuki 231</option>
               </select>
           </div>
           <div class="col mx-5 my-4">
@@ -95,8 +110,8 @@ limitations under the License.
                 <option value="clouds">clouds</option>
                 <option value="towers">towers</option>
                 <option value="sketch">sketch</option>
-                <option value="seaport" selected="selected">seaport</option>
-                <option value="red_circles">red_circles</option>
+                <option value="seaport">seaport</option>
+                <option value="fidenza58" selected="selected">Fidenza 58</option>
                 <option value="zigzag">zigzag</option>
               </select>
           </div>
@@ -135,7 +150,7 @@ limitations under the License.
                 <textarea class="form-control" id="description-input" rows="3"></textarea>
                 <small id="descriptionHelp" class="form-text text-muted">Enter a description your new NFT.</small>
               </div>
-              <button id="test-button" type="button" class="btn btn-primary btn-block">test.</button>
+              <button hidden id="test-button" type="button" class="btn btn-primary btn-block">test.</button>
               <button disabled id="mint-button" type="button" class="btn btn-primary btn-block">Please Blend 2 NFTs before attempting to mint one.</button>
             </form>            
           </div>
@@ -245,22 +260,6 @@ limitations under the License.
   </div>
 </div>
 
-<div class="container">
-  <div class="row my-4">
-    <div class="col-md-3 offset-md-3">
-        <select disabled id="model-select-style" class="centered custom-select">
-          <option value="mobilenet">[Fast] Distilled MobileNet style model (9.6MB)</option>
-          <option value="inception" selected="selected">[High quality] Original Inceptionv3 style model (36.3MB)</option>
-        </select>
-    </div>
-    <div class="col-md-3">
-        <select disabled id="model-select-transformer" class="centered custom-select">
-          <option value="separable">[Fast] Separable_conv2d transformer (2.4MB)</option>
-          <option value="original" selected="selected">[High quality] Original transformer model (7.9MB)</option>
-        </select>
-    </div>
-  </div>
-</div>
 
 <canvas id="hidden-canvas" style="display: none"></canvas>
 <div class="modal fade" id="cam-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

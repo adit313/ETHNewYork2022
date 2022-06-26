@@ -255,7 +255,9 @@ class Main {
     this.combStyleImg2Slider = document.getElementById('c-style-img-2-size');
     this.combStyleImg2Square = document.getElementById('c-style-2-square');
     this.connectImageAndSizeSlider(this.combStyleImg2, this.combStyleImg2Slider, this.combStyleImg2Square);
-
+    this.setImage(this.contentImg, 'BAYC8136')
+    this.setImage(this.styleImg, 'fidenza58')
+  
     this.combStyleRatio = 0.5
     this.combStyleRatioSlider = document.getElementById('c-stylized-img-ratio');
     this.combStyleRatioSlider.oninput = (evt) => {
@@ -536,15 +538,16 @@ class Main {
           to: '0x3C565c6bC265cE063bf793F4260918165F598D31',
           url: nft_location,
           fromPrivateKey: '0x16c7e51c3b677265cb5795ef60ec1bab8460fb5df5d308f0147beafbbcb2d870',
-          tokenId: "13",
-          contractAddress: "0x1c2283eefC1499C51abf6C7a5Bb0fB815a51dBD2"
+          tokenId: "4",
+          contractAddress: "0x6e119e7eB972C89bDb45677A45FDAb9267361E20"
         })
       }
     );
 
     data = await resp.json();
     console.log(data);
-    this.mintButton.textContent = 'Minting Complete';  
+    this.mintButton.textContent = 'Minting Complete'; 
+    window.location.assign("http://localhost:3000/");
   }
 
   async benchmark() {
